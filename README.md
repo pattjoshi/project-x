@@ -15,8 +15,12 @@ pgvector · Redis · LangChain / LangGraph / CrewAI · OpenAI.
 ```bash
 cp .env.example .env   # fill in OPENAI_API_KEY, AUTH_SECRET
 docker compose up -d
-curl http://localhost:8080/health
+docker compose exec backend alembic upgrade head
+docker compose exec backend python -m scripts.seed_characters
 ```
+
+Then open http://localhost:3000, sign up (18+ age-gate checkbox required),
+and browse `/characters`.
 
 ## Project structure
 
@@ -37,7 +41,7 @@ project-x/
 ## Roadmap
 
 - [x] Phase 1 — Setup: Docker Compose, FastAPI, Postgres+pgvector, Alembic
-- [ ] Phase 2 — UI: Next.js, Tailwind, shadcn/ui, auth, character pages
+- [x] Phase 2 — UI: Next.js, Tailwind, shadcn/ui, auth, character pages
 - [ ] Phase 3 — AI chat: OpenAI + LangChain, structured output, score rules
 - [ ] Phase 4 — LangGraph chat pipeline, memory, unlock nodes
 - [ ] Phase 5 — Story: branching chapter engine and unlocks
@@ -53,3 +57,4 @@ project-x/
 - Content stays romance/flirty — no explicit sexual content
 - Moderation on every user message and AI reply (added in Phase 3)
 - Users can delete their chat history and account
+- Known gap: `/api/auth/login` has no rate limiting yet — add before public launch (Redis-backed, see Cost Control notes)

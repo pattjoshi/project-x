@@ -9,6 +9,7 @@ class User(SQLModel, table=True):
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     email: str = Field(unique=True, index=True)
+    password_hash: str
     display_name: str
     timezone: str = Field(default="UTC")
     age_verified: bool = Field(default=False)
