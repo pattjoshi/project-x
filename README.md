@@ -15,7 +15,7 @@ pgvector · Redis · LangChain / LangGraph / CrewAI · OpenAI.
 ```bash
 cp .env.example .env   # fill in OPENAI_API_KEY, AUTH_SECRET
 docker compose up -d
-curl http://localhost:8000/health
+curl http://localhost:8080/health
 ```
 
 ## Project structure
