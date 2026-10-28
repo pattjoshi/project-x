@@ -17,6 +17,7 @@ cp .env.example .env   # fill in OPENAI_API_KEY, AUTH_SECRET
 docker compose up -d
 docker compose exec backend alembic upgrade head
 docker compose exec backend python -m scripts.seed_characters
+docker compose exec backend python -m scripts.seed_chapters
 ```
 
 Then open http://localhost:3000, sign up (18+ age-gate checkbox required),
@@ -44,7 +45,7 @@ project-x/
 - [x] Phase 2 — UI: Next.js, Tailwind, shadcn/ui, auth, character pages
 - [x] Phase 3 — AI chat: OpenAI + LangChain, structured output, score rules
 - [x] Phase 4 — LangGraph chat pipeline, memory, unlock nodes
-- [ ] Phase 5 — Story: branching chapter engine and unlocks
+- [x] Phase 5 — Story: branching chapter engine and unlocks
 - [ ] Phase 6 — Quests: daily quests, streaks
 - [ ] Phase 7 — 3D: React Three Fiber + VRM character, emotions
 - [ ] Phase 8 — CrewAI worker container, first crews

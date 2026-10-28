@@ -18,10 +18,11 @@ alembic revision --autogenerate -m "message"   # for new changes
 
 ## Seed data
 
-Populate 2-3 placeholder characters for local UI testing:
+Populate placeholder characters and their chapters for local UI testing:
 
 ```bash
 python -m scripts.seed_characters
+python -m scripts.seed_chapters
 ```
 
 ## Endpoints
@@ -32,9 +33,12 @@ Phase 2:
 - `GET /api/characters` — list characters
 - `GET /api/characters/{id}` — character detail
 
-Phase 3/4 (require `Authorization: Bearer <access_token>`):
+Phase 3/4/5 (require `Authorization: Bearer <access_token>`):
 - `GET /api/relationships/{character_id}` — current relationship state (creates one on first call)
 - `POST /api/chat/{character_id}` — `{ message }` → `{ reply, emotion, intent, relationship, stage_changed }`
+- `GET /api/chapters/{character_id}` — chapters unlocked for the current user (`relationship.stage >= chapter.unlock_stage`)
+- `GET /api/chapters/{character_id}/{chapter_id}` — current node (creates progress at the chapter's start node on first visit)
+- `POST /api/chapters/{character_id}/{chapter_id}/choose` — `{ choice_index }` → next node, with scores applied from the choice's `score_delta` (no AI involved — these are author-written, not model-generated)
 
 ## Chat pipeline (`app/graphs/chat_graph.py`)
 
@@ -65,4 +69,15 @@ END
 
 `stage_changed` in the response tells the frontend when the relationship
 crossed a stage threshold (stranger → friend → close → dating), for a toast/
-banner — no chapter/quest unlocks exist yet (Phases 5/6).
+banner.
+
+## Chapters (`app/game/chapters.py`, `app/stories/`)
+
+Scripted content, separate from the free-chat graph above. Each chapter is a
+small branching dialogue tree stored as JSON under `stories/<slug>/` (see
+`stories/README.md` for the format), with metadata (title, `unlock_stage`,
+`status`) in the `chapters` table. A chapter unlocks once
+`relationship.stage` reaches its `unlock_stage`. Choices carry an
+author-written `score_delta` applied directly — no AI in this path at all.
+Progress (`chapter_progress`) and a full choice history (`choices_log`) are
+tracked per user per chapter.

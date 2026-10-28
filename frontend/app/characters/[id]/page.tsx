@@ -38,9 +38,14 @@ export default async function CharacterProfilePage({
           <p>
             <span className="font-medium">Dislikes:</span> {character.dislikes}
           </p>
-          <Button asChild className="w-fit">
-            <Link href={`/characters/${character.id}/chat`}>Start chatting</Link>
-          </Button>
+          <div className="flex gap-2">
+            <Button asChild>
+              <Link href={`/characters/${character.id}/chat`}>Start chatting</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href={`/characters/${character.id}/chapters`}>Chapters</Link>
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </main>
