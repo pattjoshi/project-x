@@ -1,0 +1,44 @@
+import { notFound, redirect } from "next/navigation";
+
+import { ChatPanel } from "@/components/chat/chat-panel";
+import { ApiError, api } from "@/lib/api-client";
+import { auth } from "@/lib/auth";
+import type { RelationshipPublic } from "@/types/chat";
+import type { Character } from "@/types/character";
+
+export const dynamic = "force-dynamic";
+
+export default async function CharacterChatPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const session = await auth();
+  if (!session?.backendAccessToken) redirect("/login");
+
+  let character: Character;
+  let relationship: RelationshipPublic;
+  try {
+    [character, relationship] = await Promise.all([
+      api.get<Character>(`/api/characters/${id}`),
+      api.get<RelationshipPublic>(`/api/relationships/${id}`, {
+        headers: { Authorization: `Bearer ${session.backendAccessToken}` },
+      }),
+    ]);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) notFound();
+    throw error;
+  }
+
+  return (
+    <main className="mx-auto max-w-2xl p-6">
+      <h1 className="mb-4 text-2xl font-semibold">Chat with {character.name}</h1>
+      <ChatPanel
+        characterId={id}
+        characterName={character.name}
+        initialRelationship={relationship}
+      />
+    </main>
+  );
+}

@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 import { ApiError, api } from "@/lib/api-client";
-import type { UserPublic } from "@/types/user";
+import type { AuthResponse } from "@/types/user";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
@@ -19,15 +19,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!email || !password) return null;
 
         try {
-          const user = await api.post<UserPublic>("/api/auth/login", {
-            email,
-            password,
-          });
+          const { user, access_token } = await api.post<AuthResponse>(
+            "/api/auth/login",
+            { email, password },
+          );
           return {
             id: user.id,
             email: user.email,
             name: user.display_name,
             ageVerified: user.age_verified,
+            backendAccessToken: access_token,
           };
         } catch (error) {
           if (error instanceof ApiError) return null;
@@ -39,12 +40,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
-        token.ageVerified = (user as { ageVerified?: boolean }).ageVerified;
+        const u = user as { ageVerified?: boolean; backendAccessToken?: string };
+        token.ageVerified = u.ageVerified;
+        token.backendAccessToken = u.backendAccessToken;
       }
       return token;
     },
     session: ({ session, token }) => {
       session.user.ageVerified = token.ageVerified as boolean | undefined;
+      session.backendAccessToken = token.backendAccessToken as string | undefined;
       return session;
     },
   },

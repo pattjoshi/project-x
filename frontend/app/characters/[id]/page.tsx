@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ApiError, api } from "@/lib/api-client";
 import type { Character } from "@/types/character";
@@ -36,6 +38,9 @@ export default async function CharacterProfilePage({
           <p>
             <span className="font-medium">Dislikes:</span> {character.dislikes}
           </p>
+          <Button asChild className="w-fit">
+            <Link href={`/characters/${character.id}/chat`}>Start chatting</Link>
+          </Button>
         </CardContent>
       </Card>
     </main>
