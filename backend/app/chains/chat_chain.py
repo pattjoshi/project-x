@@ -1,0 +1,60 @@
+from typing import Literal
+
+from langchain_core.prompts import ChatPromptTemplate
+from pydantic import BaseModel, Field
+
+from app.core.llm import get_chat_model
+from app.models.character import Character
+from app.models.relationship import Relationship
+
+Emotion = Literal["happy", "flirty", "neutral", "sad", "surprised", "annoyed"]
+Intent = Literal[
+    "friendly",
+    "supportive",
+    "flirty",
+    "deep_share",
+    "neutral",
+    "awkward",
+    "rude_or_hostile",
+    "boundary_push",
+]
+
+
+class ChatReply(BaseModel):
+    reply: str = Field(description="The character's in-character reply to the user.")
+    emotion: Emotion = Field(description="The character's emotional reaction.")
+    intent: Intent = Field(
+        description="The social intent behind the user's message, used to update "
+        "relationship scores. Use 'boundary_push' when the user pushes for "
+        "explicit sexual content."
+    )
+
+
+SYSTEM_TEMPLATE = """{personality_prompt}
+
+Backstory: {lore}
+
+You are chatting with someone you are a "{stage}" with. Your current mood is
+{mood}. Stay in character. Keep replies short (1-3 sentences), conversational,
+and never break character to mention being an AI."""
+
+
+def generate_reply(
+    character: Character, relationship: Relationship, message: str
+) -> ChatReply:
+    prompt = ChatPromptTemplate.from_messages(
+        [("system", SYSTEM_TEMPLATE), ("human", "{message}")]
+    )
+    chain = prompt | get_chat_model().with_structured_output(ChatReply)
+
+    result = chain.invoke(
+        {
+            "personality_prompt": character.personality_prompt,
+            "lore": character.lore,
+            "stage": relationship.stage,
+            "mood": relationship.mood,
+            "message": message,
+        }
+    )
+    assert isinstance(result, ChatReply)
+    return result

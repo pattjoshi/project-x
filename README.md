@@ -42,7 +42,7 @@ project-x/
 
 - [x] Phase 1 — Setup: Docker Compose, FastAPI, Postgres+pgvector, Alembic
 - [x] Phase 2 — UI: Next.js, Tailwind, shadcn/ui, auth, character pages
-- [ ] Phase 3 — AI chat: OpenAI + LangChain, structured output, score rules
+- [x] Phase 3 — AI chat: OpenAI + LangChain, structured output, score rules
 - [ ] Phase 4 — LangGraph chat pipeline, memory, unlock nodes
 - [ ] Phase 5 — Story: branching chapter engine and unlocks
 - [ ] Phase 6 — Quests: daily quests, streaks
@@ -55,6 +55,6 @@ project-x/
 
 - 18+ age-verification gate before signup completes
 - Content stays romance/flirty — no explicit sexual content
-- Moderation on every user message and AI reply (added in Phase 3)
-- Users can delete their chat history and account
-- Known gap: `/api/auth/login` has no rate limiting yet — add before public launch (Redis-backed, see Cost Control notes)
+- Moderation on every user message and AI reply
+- Users can delete their chat history and account — not yet implemented (add in a later phase)
+- Known gap: `/api/auth/login` and `/api/chat` have no rate limiting yet — add before public launch (Redis-backed, see Cost Control notes)

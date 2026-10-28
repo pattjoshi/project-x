@@ -4,3 +4,8 @@ export interface UserPublic {
   display_name: string;
   age_verified: boolean;
 }
+
+export interface AuthResponse {
+  user: UserPublic;
+  access_token: string;
+}

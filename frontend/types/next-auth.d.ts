@@ -5,11 +5,13 @@ declare module "next-auth" {
     user: DefaultSession["user"] & {
       ageVerified?: boolean;
     };
+    backendAccessToken?: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     ageVerified?: boolean;
+    backendAccessToken?: string;
   }
 }

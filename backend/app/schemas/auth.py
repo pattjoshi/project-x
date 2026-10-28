@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class RegisterRequest(BaseModel):
@@ -17,7 +17,14 @@ class LoginRequest(BaseModel):
 
 
 class UserPublic(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: uuid.UUID
     email: str
     display_name: str
     age_verified: bool
+
+
+class AuthResponse(BaseModel):
+    user: UserPublic
+    access_token: str

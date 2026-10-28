@@ -12,7 +12,11 @@ class Settings(BaseSettings):
     redis_url: str = "redis://redis:6379"
 
     openai_api_key: str = ""
+    openai_chat_model: str = "gpt-4o-mini"
+    openai_max_tokens: int = 300
+
     auth_secret: str = ""
+    access_token_expire_minutes: int = 60 * 24 * 7
 
     cors_origins: list[str] = ["http://localhost:3000"]
 
