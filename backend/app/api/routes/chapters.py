@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.api.deps import CurrentUser, SessionDep
 from app.game.chapters import apply_choice, get_current_node, get_or_start_progress, list_unlocked_chapters
+from app.game.daily import record_progress
 from app.game.relationships import get_or_create_relationship
 from app.models.chapter import Chapter
 from app.models.chapter_progress import ChapterProgress
@@ -79,6 +80,11 @@ def choose(
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
+    stage_changed = stage_before != relationship.stage
+    record_progress(session, current_user, "chapter_choice")
+    if stage_changed:
+        record_progress(session, current_user, "level_up")
+
     return ChapterNodeResponse(
         chapter_id=chapter.id,
         node_id=progress.current_node,
@@ -86,5 +92,5 @@ def choose(
         choices=[c["text"] for c in next_node.get("choices", [])],
         ending=bool(next_node.get("ending", False)),
         relationship=RelationshipPublic.model_validate(relationship),
-        stage_changed=stage_before != relationship.stage,
+        stage_changed=stage_changed,
     )

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "@/lib/auth";
 
-const PROTECTED_PREFIXES = ["/characters"];
+const PROTECTED_PREFIXES = ["/characters", "/daily"];
 
 export default auth((req) => {
   const isProtected = PROTECTED_PREFIXES.some((prefix) =>
@@ -19,5 +19,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/characters/:path*"],
+  matcher: ["/characters/:path*", "/daily/:path*"],
 };
