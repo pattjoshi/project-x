@@ -23,6 +23,7 @@ Populate placeholder characters and their chapters for local UI testing:
 ```bash
 python -m scripts.seed_characters
 python -m scripts.seed_chapters
+python -m scripts.seed_quests
 ```
 
 ## Endpoints
@@ -33,12 +34,13 @@ Phase 2:
 - `GET /api/characters` — list characters
 - `GET /api/characters/{id}` — character detail
 
-Phase 3/4/5 (require `Authorization: Bearer <access_token>`):
+Phase 3/4/5/6 (require `Authorization: Bearer <access_token>`):
 - `GET /api/relationships/{character_id}` — current relationship state (creates one on first call)
 - `POST /api/chat/{character_id}` — `{ message }` → `{ reply, emotion, intent, relationship, stage_changed }`
 - `GET /api/chapters/{character_id}` — chapters unlocked for the current user (`relationship.stage >= chapter.unlock_stage`)
 - `GET /api/chapters/{character_id}/{chapter_id}` — current node (creates progress at the chapter's start node on first visit)
 - `POST /api/chapters/{character_id}/{chapter_id}/choose` — `{ choice_index }` → next node, with scores applied from the choice's `score_delta` (no AI involved — these are author-written, not model-generated)
+- `GET /api/daily` — login streak + today's 3 quests, lazily bootstrapped (see below)
 
 ## Chat pipeline (`app/graphs/chat_graph.py`)
 
@@ -81,3 +83,15 @@ small branching dialogue tree stored as JSON under `stories/<slug>/` (see
 author-written `score_delta` applied directly — no AI in this path at all.
 Progress (`chapter_progress`) and a full choice history (`choices_log`) are
 tracked per user per chapter.
+
+## Daily quests & streaks (`app/game/daily.py`)
+
+No cron job — "lazy" generation per the plan: the first authenticated request
+of the day (via `GET /api/daily`) compares `user.last_active_date` (in the
+user's own `timezone`) to today, rolls the login streak forward (or resets it
+to 1 if a day was missed), and creates today's `UserQuest` rows from the
+fixed `quests` catalog (seeded once via `scripts.seed_quests`). `record_progress`
+is called from the chat and chapter routes to increment the matching quest
+(`chat_messages`, `chapter_choice`, `level_up`) as the user plays, capped at
+each quest's `target`. Rewards are currently descriptive text only — no
+score-mechanical effect yet.

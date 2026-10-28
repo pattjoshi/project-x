@@ -18,6 +18,7 @@ docker compose up -d
 docker compose exec backend alembic upgrade head
 docker compose exec backend python -m scripts.seed_characters
 docker compose exec backend python -m scripts.seed_chapters
+docker compose exec backend python -m scripts.seed_quests
 ```
 
 Then open http://localhost:3000, sign up (18+ age-gate checkbox required),
@@ -46,7 +47,7 @@ project-x/
 - [x] Phase 3 — AI chat: OpenAI + LangChain, structured output, score rules
 - [x] Phase 4 — LangGraph chat pipeline, memory, unlock nodes
 - [x] Phase 5 — Story: branching chapter engine and unlocks
-- [ ] Phase 6 — Quests: daily quests, streaks
+- [x] Phase 6 — Quests: daily quests, streaks
 - [ ] Phase 7 — 3D: React Three Fiber + VRM character, emotions
 - [ ] Phase 8 — CrewAI worker container, first crews
 - [ ] Phase 9 — Deploy: VPS or Vercel + Render/Railway, HTTPS

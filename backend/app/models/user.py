@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 from sqlmodel import Field, SQLModel
 
@@ -16,3 +16,7 @@ class User(SQLModel, table=True):
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
+
+    last_active_date: date | None = Field(default=None)
+    current_streak: int = Field(default=0)
+    longest_streak: int = Field(default=0)

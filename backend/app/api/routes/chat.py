@@ -3,6 +3,7 @@ import uuid
 from fastapi import APIRouter, HTTPException, status
 
 from app.api.deps import CurrentUser, SessionDep
+from app.game.daily import record_progress
 from app.game.relationships import get_or_create_relationship
 from app.graphs.chat_graph import get_chat_graph
 from app.models.character import Character
@@ -59,6 +60,10 @@ def chat(
     session.refresh(relationship)
 
     stage_changed = result.get("stage_before") is not None and result["stage_before"] != relationship.stage
+
+    record_progress(session, current_user, "chat_messages")
+    if stage_changed:
+        record_progress(session, current_user, "level_up")
 
     return ChatResponse(
         message_id=assistant_message.id,

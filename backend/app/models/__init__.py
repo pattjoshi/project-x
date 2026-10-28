@@ -4,8 +4,10 @@ from app.models.character import Character
 from app.models.choice_log import ChoiceLog
 from app.models.memory import Memory
 from app.models.message import Message
+from app.models.quest import Quest
 from app.models.relationship import Relationship
 from app.models.user import User
+from app.models.user_quest import UserQuest
 
 __all__ = [
     "User",
@@ -16,4 +18,6 @@ __all__ = [
     "Chapter",
     "ChapterProgress",
     "ChoiceLog",
+    "Quest",
+    "UserQuest",
 ]
