@@ -3,17 +3,13 @@ import uuid
 from fastapi import APIRouter, HTTPException, status
 
 from app.api.deps import CurrentUser, SessionDep
-from app.chains.chat_chain import generate_reply
-from app.core.moderation import is_flagged
 from app.game.relationships import get_or_create_relationship
-from app.game.score_rules import apply_score_rules
+from app.graphs.chat_graph import get_chat_graph
 from app.models.character import Character
 from app.models.message import Message
 from app.schemas.chat import ChatRequest, ChatResponse, RelationshipPublic
 
 router = APIRouter(prefix="/api/chat", tags=["chat"])
-
-SAFE_REFUSAL_REPLY = "Let's talk about something else."
 
 
 @router.post("/{character_id}", response_model=ChatResponse)
@@ -38,33 +34,37 @@ def chat(
         )
     )
 
-    if is_flagged(payload.message):
-        reply, emotion, intent = SAFE_REFUSAL_REPLY, "neutral", "neutral"
-    else:
-        result = generate_reply(character, relationship, payload.message)
-        if is_flagged(result.reply):
-            reply, emotion, intent = SAFE_REFUSAL_REPLY, "neutral", "neutral"
-        else:
-            reply, emotion, intent = result.reply, result.emotion, result.intent
-            apply_score_rules(relationship, intent)
+    result = get_chat_graph().invoke(
+        {
+            "session": session,
+            "user_id": current_user.id,
+            "character_id": character_id,
+            "character": character,
+            "relationship": relationship,
+            "user_message": payload.message,
+        }
+    )
 
     session.add(relationship)
     assistant_message = Message(
         user_id=current_user.id,
         character_id=character_id,
         role="assistant",
-        content=reply,
-        emotion=emotion,
+        content=result["reply"],
+        emotion=result["emotion"],
     )
     session.add(assistant_message)
     session.commit()
     session.refresh(assistant_message)
     session.refresh(relationship)
 
+    stage_changed = result.get("stage_before") is not None and result["stage_before"] != relationship.stage
+
     return ChatResponse(
         message_id=assistant_message.id,
-        reply=reply,
-        emotion=emotion,
-        intent=intent,
+        reply=result["reply"],
+        emotion=result["emotion"],
+        intent=result["intent"],
         relationship=RelationshipPublic.model_validate(relationship),
+        stage_changed=stage_changed,
     )

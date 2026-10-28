@@ -23,3 +23,4 @@ class ChatResponse(BaseModel):
     emotion: str
     intent: str
     relationship: RelationshipPublic
+    stage_changed: bool = False

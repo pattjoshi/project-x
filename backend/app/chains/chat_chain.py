@@ -36,11 +36,17 @@ Backstory: {lore}
 
 You are chatting with someone you are a "{stage}" with. Your current mood is
 {mood}. Stay in character. Keep replies short (1-3 sentences), conversational,
-and never break character to mention being an AI."""
+and never break character to mention being an AI.
+
+What you remember about this person:
+{memory_context}"""
 
 
 def generate_reply(
-    character: Character, relationship: Relationship, message: str
+    character: Character,
+    relationship: Relationship,
+    message: str,
+    memory_context: str = "(nothing yet)",
 ) -> ChatReply:
     prompt = ChatPromptTemplate.from_messages(
         [("system", SYSTEM_TEMPLATE), ("human", "{message}")]
@@ -53,6 +59,7 @@ def generate_reply(
             "lore": character.lore,
             "stage": relationship.stage,
             "mood": relationship.mood,
+            "memory_context": memory_context,
             "message": message,
         }
     )

@@ -13,6 +13,17 @@ INTENT_DELTAS: dict[str, dict[str, int]] = {
     "boundary_push": {"affection": -1, "trust": -3, "chemistry": 0},
 }
 
+INTENT_MOODS: dict[str, str] = {
+    "friendly": "happy",
+    "supportive": "happy",
+    "flirty": "flirty",
+    "deep_share": "happy",
+    "neutral": "neutral",
+    "awkward": "neutral",
+    "rude_or_hostile": "annoyed",
+    "boundary_push": "annoyed",
+}
+
 STAGE_THRESHOLDS = [
     ("dating", {"affection": 60, "trust": 40, "chemistry": 30}),
     ("close", {"affection": 30, "trust": 20, "chemistry": 0}),
@@ -42,5 +53,6 @@ def apply_score_rules(relationship: Relationship, intent: str) -> Relationship:
     relationship.trust = _clamp(relationship.trust + deltas["trust"])
     relationship.chemistry = _clamp(relationship.chemistry + deltas["chemistry"])
     relationship.stage = compute_stage(relationship)
+    relationship.mood = INTENT_MOODS.get(intent, "neutral")
 
     return relationship
