@@ -3,7 +3,6 @@ uvicorn[standard]==0.34.0
 sqlmodel==0.0.22
 alembic==1.14.0
 psycopg2-binary==2.9.10
-pgvector==0.3.6
 pydantic-settings==2.7.1
 email-validator==2.2.0
 python-dotenv==1.0.1
@@ -12,3 +11,5 @@ PyJWT==2.15.1
 openai==3.40.0
 langchain==1.4.7
 langchain-openai==1.7.3
+langgraph==1.2.18
+pgvector==0.5.1

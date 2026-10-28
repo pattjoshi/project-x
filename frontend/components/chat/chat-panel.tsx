@@ -21,6 +21,7 @@ export function ChatPanel({
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [stageChangeNotice, setStageChangeNotice] = useState<string | null>(null);
 
   const sendMessage = async () => {
     const content = input.trim();
@@ -57,6 +58,9 @@ export function ChatPanel({
         },
       ]);
       setRelationship(data.relationship);
+      if (data.stage_changed) {
+        setStageChangeNotice(`You're now ${data.relationship.stage} with ${characterName}!`);
+      }
     } catch {
       setError("Network error. Try again.");
     } finally {
@@ -67,6 +71,12 @@ export function ChatPanel({
   return (
     <div className="flex flex-col gap-4">
       <RelationshipMeters relationship={relationship} />
+
+      {stageChangeNotice && (
+        <p className="rounded-lg bg-accent px-3 py-2 text-center text-sm font-medium">
+          {stageChangeNotice}
+        </p>
+      )}
 
       <div className="flex min-h-80 flex-col gap-3 overflow-y-auto rounded-lg border p-4">
         {messages.length === 0 && (

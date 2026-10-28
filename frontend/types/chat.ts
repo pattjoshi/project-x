@@ -12,6 +12,7 @@ export interface ChatResponse {
   emotion: string;
   intent: string;
   relationship: RelationshipPublic;
+  stage_changed: boolean;
 }
 
 export interface ChatMessage {

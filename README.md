@@ -43,7 +43,7 @@ project-x/
 - [x] Phase 1 — Setup: Docker Compose, FastAPI, Postgres+pgvector, Alembic
 - [x] Phase 2 — UI: Next.js, Tailwind, shadcn/ui, auth, character pages
 - [x] Phase 3 — AI chat: OpenAI + LangChain, structured output, score rules
-- [ ] Phase 4 — LangGraph chat pipeline, memory, unlock nodes
+- [x] Phase 4 — LangGraph chat pipeline, memory, unlock nodes
 - [ ] Phase 5 — Story: branching chapter engine and unlocks
 - [ ] Phase 6 — Quests: daily quests, streaks
 - [ ] Phase 7 — 3D: React Three Fiber + VRM character, emotions
