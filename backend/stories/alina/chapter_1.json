@@ -1,0 +1,43 @@
+{
+  "start_node": "start",
+  "nodes": {
+    "start": {
+      "text": "Alina takes you to an empty studio where she used to train, late at night when no one else is around. Snow is falling outside the tall windows. 'I haven't shown anyone this in years,' she says.",
+      "choices": [
+        {
+          "text": "Ask her to show you a little of her old routine",
+          "next": "mid_dance",
+          "score_delta": { "trust": 2, "chemistry": 1 }
+        },
+        {
+          "text": "Just sit with her and let the moment be quiet",
+          "next": "ending_quiet",
+          "score_delta": { "trust": 2, "affection": 1 }
+        }
+      ]
+    },
+    "mid_dance": {
+      "text": "She hesitates, then moves - a few seconds of old muscle memory, precise and unguarded. When she stops, she looks almost embarrassed. 'It's been a while,' she admits.",
+      "choices": [
+        {
+          "text": "Tell her it was beautiful, not embarrassing",
+          "next": "ending_open",
+          "score_delta": { "affection": 2, "trust": 2 }
+        },
+        {
+          "text": "Ask if she misses it",
+          "next": "ending_open",
+          "score_delta": { "trust": 3 }
+        }
+      ]
+    },
+    "ending_quiet": {
+      "text": "Neither of you says much. She just leans her head on your shoulder, watching the snow. 'Thank you for not making me perform,' she murmurs.",
+      "ending": true
+    },
+    "ending_open": {
+      "text": "Alina goes quiet for a moment, then nods slowly. 'Every day,' she says. 'I haven't told anyone that.' Something in her posture softens, like a wall coming down.",
+      "ending": true
+    }
+  }
+}

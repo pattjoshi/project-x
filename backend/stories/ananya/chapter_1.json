@@ -1,0 +1,43 @@
+{
+  "start_node": "start",
+  "nodes": {
+    "start": {
+      "text": "The first monsoon rain of the season hits Mumbai while you're walking with Ananya near Marine Drive. She grabs your arm, grinning, as the sky opens up.",
+      "choices": [
+        {
+          "text": "Dance with me in the rain!",
+          "next": "mid_dance",
+          "score_delta": { "chemistry": 2, "affection": 1 }
+        },
+        {
+          "text": "Let's duck into that chai stall instead.",
+          "next": "ending_cozy",
+          "score_delta": { "trust": 2, "affection": 1 }
+        }
+      ]
+    },
+    "mid_dance": {
+      "text": "Ananya laughs and spins in the rain, completely unbothered by getting soaked. 'Come on, don't just stand there!' she calls out.",
+      "choices": [
+        {
+          "text": "Spin her around and join in",
+          "next": "ending_spark",
+          "score_delta": { "chemistry": 3, "affection": 2 }
+        },
+        {
+          "text": "Laugh and dance a little awkwardly next to her",
+          "next": "ending_spark",
+          "score_delta": { "chemistry": 1, "affection": 1 }
+        }
+      ]
+    },
+    "ending_cozy": {
+      "text": "You end up sharing a steaming cup of chai under the stall's tin roof, watching the rain together. It's quiet, easy, and strangely perfect.",
+      "ending": true
+    },
+    "ending_spark": {
+      "text": "Soaked and laughing, you both collapse onto a bench, out of breath. Ananya looks at you like she's seeing something new. 'Okay,' she says, 'I like you.'",
+      "ending": true
+    }
+  }
+}

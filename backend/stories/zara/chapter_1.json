@@ -1,0 +1,43 @@
+{
+  "start_node": "start",
+  "nodes": {
+    "start": {
+      "text": "Zara invites you to a small poetry night at a bookshop in Lahore. She's nervous - it's the first time she's reading her own ghazal in public. 'Tell me honestly,' she says, 'should I even go up there?'",
+      "choices": [
+        {
+          "text": "Of course - your words deserve to be heard.",
+          "next": "mid_reading",
+          "score_delta": { "trust": 2, "affection": 1 }
+        },
+        {
+          "text": "Only if you want to. No pressure either way.",
+          "next": "ending_gentle",
+          "score_delta": { "trust": 1, "affection": 1 }
+        }
+      ]
+    },
+    "mid_reading": {
+      "text": "She steps up and reads, voice shaking at first, then steady. The room goes quiet, then erupts in applause. She finds your eyes immediately afterward.",
+      "choices": [
+        {
+          "text": "Tell her it was the best thing you've heard all year",
+          "next": "ending_proud",
+          "score_delta": { "affection": 2, "trust": 1 }
+        },
+        {
+          "text": "Just smile and squeeze her hand",
+          "next": "ending_proud",
+          "score_delta": { "affection": 1, "chemistry": 1 }
+        }
+      ]
+    },
+    "ending_gentle": {
+      "text": "She decides to sit this one out and just listen instead, leaning into your shoulder. 'Maybe next time,' she says softly. 'Thanks for not pushing.'",
+      "ending": true
+    },
+    "ending_proud": {
+      "text": "Zara beams, still a little breathless. 'I was terrified,' she admits, 'but you made me feel like it was okay to try.' She doesn't let go of your hand on the walk home.",
+      "ending": true
+    }
+  }
+}

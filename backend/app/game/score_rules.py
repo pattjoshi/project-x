@@ -30,8 +30,16 @@ STAGE_THRESHOLDS = [
     ("friend", {"affection": 10, "trust": 0, "chemistry": 0}),
 ]
 
+STAGE_ORDER = ["stranger", "friend", "close", "dating"]
 
-def _clamp(value: int, low: int = -100, high: int = 100) -> int:
+
+def stage_meets(current_stage: str, required_stage: str) -> bool:
+    current_index = STAGE_ORDER.index(current_stage) if current_stage in STAGE_ORDER else 0
+    required_index = STAGE_ORDER.index(required_stage) if required_stage in STAGE_ORDER else 0
+    return current_index >= required_index
+
+
+def clamp(value: int, low: int = -100, high: int = 100) -> int:
     return max(low, min(high, value))
 
 
@@ -49,9 +57,9 @@ def compute_stage(relationship: Relationship) -> str:
 def apply_score_rules(relationship: Relationship, intent: str) -> Relationship:
     deltas = INTENT_DELTAS.get(intent, INTENT_DELTAS["neutral"])
 
-    relationship.affection = _clamp(relationship.affection + deltas["affection"])
-    relationship.trust = _clamp(relationship.trust + deltas["trust"])
-    relationship.chemistry = _clamp(relationship.chemistry + deltas["chemistry"])
+    relationship.affection = clamp(relationship.affection + deltas["affection"])
+    relationship.trust = clamp(relationship.trust + deltas["trust"])
+    relationship.chemistry = clamp(relationship.chemistry + deltas["chemistry"])
     relationship.stage = compute_stage(relationship)
     relationship.mood = INTENT_MOODS.get(intent, "neutral")
 
