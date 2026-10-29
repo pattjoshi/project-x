@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { AppHeader } from "@/components/layout/app-header";
 import { ChapterReader } from "@/components/chapters/chapter-reader";
 import { api } from "@/lib/api-client";
 import { auth } from "@/lib/auth";
@@ -21,8 +22,11 @@ export default async function ChapterReaderPage({
   });
 
   return (
-    <main className="mx-auto max-w-2xl p-6">
-      <ChapterReader characterId={id} chapterId={chapterId} initialNode={node} />
-    </main>
+    <>
+      <AppHeader />
+      <main className="mx-auto max-w-2xl p-6">
+        <ChapterReader characterId={id} chapterId={chapterId} initialNode={node} />
+      </main>
+    </>
   );
 }
