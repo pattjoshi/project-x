@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 
-import { ChatPanel } from "@/components/chat/chat-panel";
+import { CharacterChatExperience } from "@/components/chat/character-chat-experience";
 import { ApiError, api } from "@/lib/api-client";
 import { auth } from "@/lib/auth";
 import type { RelationshipPublic } from "@/types/chat";
@@ -34,9 +34,10 @@ export default async function CharacterChatPage({
   return (
     <main className="mx-auto max-w-2xl p-6">
       <h1 className="mb-4 text-2xl font-semibold">Chat with {character.name}</h1>
-      <ChatPanel
+      <CharacterChatExperience
         characterId={id}
         characterName={character.name}
+        vrmUrl={character.vrm_model_url}
         initialRelationship={relationship}
       />
     </main>

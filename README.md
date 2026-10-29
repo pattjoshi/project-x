@@ -48,7 +48,7 @@ project-x/
 - [x] Phase 4 — LangGraph chat pipeline, memory, unlock nodes
 - [x] Phase 5 — Story: branching chapter engine and unlocks
 - [x] Phase 6 — Quests: daily quests, streaks
-- [ ] Phase 7 — 3D: React Three Fiber + VRM character, emotions
+- [x] Phase 7 — 3D: React Three Fiber + VRM character, emotions
 - [ ] Phase 8 — CrewAI worker container, first crews
 - [ ] Phase 9 — Deploy: VPS or Vercel + Render/Railway, HTTPS
 - [ ] Phase 10 — V2: voice, gifts, dates, VR, analytics
@@ -56,7 +56,9 @@ project-x/
 ## Safety
 
 - 18+ age-verification gate before signup completes
-- Content stays romance/flirty — no explicit sexual content
+- Content stays romance/flirty — no explicit sexual content, and that
+  includes character art/avatars: no sexualized imagery or real-person
+  likenesses
 - Moderation on every user message and AI reply
 - Users can delete their chat history and account — not yet implemented (add in a later phase)
 - Known gap: `/api/auth/login` and `/api/chat` have no rate limiting yet — add before public launch (Redis-backed, see Cost Control notes)
