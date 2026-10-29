@@ -45,6 +45,9 @@ export default async function CharacterProfilePage({
             <Button asChild variant="outline">
               <Link href={`/characters/${character.id}/chapters`}>Chapters</Link>
             </Button>
+            <Button asChild variant="outline">
+              <Link href={`/characters/${character.id}/report`}>Compatibility Report</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>
