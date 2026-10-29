@@ -76,12 +76,12 @@ export function ChatPanel({
       <RelationshipMeters relationship={relationship} />
 
       {stageChangeNotice && (
-        <p className="rounded-lg bg-accent px-3 py-2 text-center text-sm font-medium">
+        <p className="gradient-romantic rounded-lg px-3 py-2 text-center text-sm font-medium text-white">
           {stageChangeNotice}
         </p>
       )}
 
-      <div className="flex min-h-80 flex-col gap-3 overflow-y-auto rounded-lg border p-4">
+      <div className="flex min-h-80 flex-col gap-2.5 overflow-y-auto rounded-lg border bg-card p-4">
         {messages.length === 0 && (
           <p className="text-sm text-muted-foreground">
             Say hello to {characterName}.
@@ -94,11 +94,26 @@ export function ChatPanel({
               message.role === "user" ? "self-end text-right" : "self-start"
             }
           >
-            <p className="inline-block rounded-lg bg-secondary px-3 py-2 text-sm">
+            <p
+              className={
+                message.role === "user"
+                  ? "gradient-romantic inline-block rounded-2xl rounded-br-sm px-3.5 py-2 text-sm text-white"
+                  : "inline-block rounded-2xl rounded-bl-sm bg-secondary px-3.5 py-2 text-sm text-secondary-foreground"
+              }
+            >
               {message.content}
             </p>
           </div>
         ))}
+        {isSending && (
+          <div className="self-start">
+            <p className="inline-flex items-center gap-1 rounded-2xl rounded-bl-sm bg-secondary px-3.5 py-2.5">
+              <span className="size-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.3s]" />
+              <span className="size-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.15s]" />
+              <span className="size-1.5 animate-bounce rounded-full bg-muted-foreground" />
+            </p>
+          </div>
+        )}
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}

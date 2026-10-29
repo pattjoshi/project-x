@@ -6,10 +6,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LoginPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <Card className="w-full max-w-sm">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden p-6">
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 opacity-15 blur-3xl"
+        style={{ backgroundImage: "var(--gradient-romantic)" }}
+        aria-hidden
+      />
+      <Card className="w-full max-w-sm shadow-lg">
         <CardHeader>
-          <CardTitle>Sign in</CardTitle>
+          <CardTitle className="text-xl">Welcome back</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Suspense>
@@ -17,7 +22,7 @@ export default function LoginPage() {
           </Suspense>
           <p className="text-sm text-muted-foreground">
             No account?{" "}
-            <Link href="/signup" className="underline">
+            <Link href="/signup" className="font-medium text-primary underline-offset-4 hover:underline">
               Sign up
             </Link>
           </p>

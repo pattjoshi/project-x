@@ -15,7 +15,15 @@ export function CafeScene({
   emotion: string;
 }) {
   return (
-    <div className="relative h-80 w-full overflow-hidden rounded-lg border bg-muted">
+    <div className="relative h-80 w-full overflow-hidden rounded-xl border shadow-sm">
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(180deg, oklch(0.86 0.04 55) 0%, oklch(0.9 0.025 40) 60%, oklch(0.82 0.03 35) 100%)",
+        }}
+        aria-hidden
+      />
       <Canvas shadows camera={{ position: [0, 1.4, 2.2], fov: 35 }}>
         <CafeEnvironment />
         <CharacterAvatar vrmUrl={vrmUrl} emotion={emotion} />
@@ -30,7 +38,7 @@ export function CafeScene({
 
       {/* Plain DOM overlay, not a 3D-anchored drei <Html> - see
           placeholder-avatar.tsx for why. */}
-      <div className="pointer-events-none absolute top-2 right-2 rounded-full bg-background/80 px-2 py-1 text-xl">
+      <div className="glass-panel pointer-events-none absolute top-3 right-3 rounded-full px-2.5 py-1 text-xl shadow-sm">
         {emojiForEmotion(emotion)}
       </div>
     </div>

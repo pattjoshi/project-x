@@ -29,9 +29,12 @@ export function CafeEnvironment() {
         <meshStandardMaterial color="#4a3321" />
       </mesh>
 
-      <ambientLight intensity={0.6} />
-      <pointLight position={[2, 3, 2]} intensity={0.8} color="#ffddaa" />
-      <directionalLight position={[-3, 4, 2]} intensity={0.4} />
+      <ambientLight intensity={0.55} color="#fff1e0" />
+      <pointLight position={[2, 3, 2]} intensity={0.9} color="#ffddaa" castShadow />
+      <directionalLight position={[-3, 4, 2]} intensity={0.35} />
+      {/* soft fill so the avatar doesn't read as flat from the front */}
+      <pointLight position={[0, 1.2, 1.5]} intensity={0.3} color="#ffe9d6" />
+      <fog attach="fog" args={["#e8d9c4", 4, 10]} />
     </group>
   );
 }

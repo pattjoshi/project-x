@@ -42,17 +42,17 @@ export function ChapterReader({
   return (
     <div className="flex flex-col gap-4">
       {stageNotice && (
-        <p className="rounded-lg bg-accent px-3 py-2 text-center text-sm font-medium">
+        <p className="gradient-romantic rounded-lg px-3 py-2 text-center text-sm font-medium text-white">
           {stageNotice}
         </p>
       )}
 
-      <Card>
+      <Card className="shadow-sm">
         <CardContent className="flex flex-col gap-4 pt-2">
           <p className="leading-relaxed">{node.text}</p>
 
           {node.ending ? (
-            <p className="text-sm font-medium text-muted-foreground">— The End —</p>
+            <p className="gradient-romantic-text text-sm font-semibold">— The End —</p>
           ) : (
             <div className="flex flex-col gap-2">
               {node.choices.map((choice, index) => (
