@@ -2,6 +2,7 @@ from app.models.chapter import Chapter
 from app.models.chapter_progress import ChapterProgress
 from app.models.character import Character
 from app.models.choice_log import ChoiceLog
+from app.models.job import Job
 from app.models.memory import Memory
 from app.models.message import Message
 from app.models.quest import Quest
@@ -20,4 +21,5 @@ __all__ = [
     "ChoiceLog",
     "Quest",
     "UserQuest",
+    "Job",
 ]

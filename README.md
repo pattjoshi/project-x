@@ -30,7 +30,7 @@ and browse `/characters`.
 project-x/
 ├── frontend/   # Next.js UI (Phase 2+)
 ├── backend/    # FastAPI API, models, migrations, AI chains/graphs, stories
-└── worker/     # CrewAI background jobs (Phase 8+)
+└── worker/     # CrewAI background jobs (ARQ), run via docker compose
 ```
 
 ## Branching strategy
@@ -49,7 +49,7 @@ project-x/
 - [x] Phase 5 — Story: branching chapter engine and unlocks
 - [x] Phase 6 — Quests: daily quests, streaks
 - [x] Phase 7 — 3D: React Three Fiber + VRM character, emotions
-- [ ] Phase 8 — CrewAI worker container, first crews
+- [x] Phase 8 — CrewAI worker container, first crews
 - [ ] Phase 9 — Deploy: VPS or Vercel + Render/Railway, HTTPS
 - [ ] Phase 10 — V2: voice, gifts, dates, VR, analytics
 

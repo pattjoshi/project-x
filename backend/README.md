@@ -42,6 +42,10 @@ Phase 3/4/5/6 (require `Authorization: Bearer <access_token>`):
 - `POST /api/chapters/{character_id}/{chapter_id}/choose` — `{ choice_index }` → next node, with scores applied from the choice's `score_delta` (no AI involved — these are author-written, not model-generated)
 - `GET /api/daily` — login streak + today's 3 quests, lazily bootstrapped (see below)
 
+Phase 8 (require `Authorization: Bearer <access_token>`):
+- `POST /api/reports/{character_id}` → `202` + `{ id, status: "pending" }`, enqueues a background job on the worker (see `../worker/README.md`)
+- `GET /api/reports/jobs/{job_id}` — poll for the result (`{ status, output }`); 404 if the job doesn't belong to the current user
+
 ## Chat pipeline (`app/graphs/chat_graph.py`)
 
 A LangGraph `StateGraph` (invoked fresh per request — no checkpointer; the
@@ -95,3 +99,11 @@ is called from the chat and chapter routes to increment the matching quest
 (`chat_messages`, `chapter_choice`, `level_up`) as the user plays, capped at
 each quest's `target`. Rewards are currently descriptive text only — no
 score-mechanical effect yet.
+
+## Background jobs (`app/core/queue.py`, `app/models/job.py`)
+
+A `jobs` row (`type`, `status`, `input`, `output`) is created and an ARQ job
+is enqueued on the same Redis the worker container listens on - the API
+returns immediately with `status: "pending"`; the frontend polls
+`GET /api/reports/jobs/{job_id}` until it flips to `completed`/`failed`. See
+`../worker/README.md` for what runs on the other end.
