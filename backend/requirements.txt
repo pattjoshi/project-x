@@ -13,3 +13,4 @@ langchain==1.4.7
 langchain-openai==1.7.3
 langgraph==1.2.18
 pgvector==0.5.1
+arq==0.28.0
