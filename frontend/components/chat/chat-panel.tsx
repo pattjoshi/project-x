@@ -11,10 +11,12 @@ export function ChatPanel({
   characterId,
   characterName,
   initialRelationship,
+  onEmotionChange,
 }: {
   characterId: string;
   characterName: string;
   initialRelationship: RelationshipPublic;
+  onEmotionChange?: (emotion: string) => void;
 }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [relationship, setRelationship] = useState(initialRelationship);
@@ -58,6 +60,7 @@ export function ChatPanel({
         },
       ]);
       setRelationship(data.relationship);
+      onEmotionChange?.(data.emotion);
       if (data.stage_changed) {
         setStageChangeNotice(`You're now ${data.relationship.stage} with ${characterName}!`);
       }
