@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { AppHeader } from "@/components/layout/app-header";
+import { PageHeading } from "@/components/layout/page-heading";
 import { GiftPicker } from "@/components/gifts/gift-picker";
 import { ApiError, api } from "@/lib/api-client";
 import { auth } from "@/lib/auth";
@@ -35,8 +36,8 @@ export default async function GiftsPage({
   return (
     <>
       <AppHeader />
-      <main className="mx-auto max-w-2xl p-6">
-        <h1 className="mb-4 text-2xl font-semibold">Send {character.name} a gift</h1>
+      <main className="mx-auto max-w-2xl p-6 pt-12">
+        <PageHeading eyebrow="A little something" title={`Send ${character.name} a gift`} />
         <GiftPicker characterId={id} characterName={character.name} gifts={gifts} />
       </main>
     </>
