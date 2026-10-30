@@ -54,6 +54,8 @@ def chat(
         role="assistant",
         content=result["reply"],
         emotion=result["emotion"],
+        prompt_tokens=result.get("prompt_tokens"),
+        completion_tokens=result.get("completion_tokens"),
     )
     session.add(assistant_message)
     session.commit()

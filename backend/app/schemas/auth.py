@@ -23,6 +23,7 @@ class UserPublic(BaseModel):
     email: str
     display_name: str
     age_verified: bool
+    is_admin: bool
 
 
 class AuthResponse(BaseModel):

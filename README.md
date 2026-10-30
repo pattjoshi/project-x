@@ -54,16 +54,10 @@ project-x/
 - [ ] Phase 9 — Deploy: VPS or Vercel + Render/Railway, HTTPS
 - [ ] Phase 10 — V2: voice, gifts, dates, VR, analytics
   - [x] Phase 10a — Gifts: catalog + send-gift flow, affinity-based relationship deltas
-  - [ ] Phase 10b — Analytics (admin dashboard)
+  - [x] Phase 10b — Analytics: admin dashboard (drop-off, choice stats, estimated AI cost per user)
   - [x] Phase 10c — Date locations: cafe/park/rooftop 3D scenes, client-side switcher
-  - [ ] Phase 10d — Voice (TTS)
-  - [x] Phase 10e — VR: WebXR entry button (`@react-three/xr`) with fallback detection; not tested on real hardware, see `frontend/README.md`
-
-All five Phase 10 sub-features are now built — the remaining Phase 10
-checkbox above stays unchecked pending a real-device VR smoke test and an
-`OPENAI_API_KEY`-backed check of voice/cost tracking (see the `frontend` and
-`backend` READMEs for what each feature's test coverage does and doesn't
-include).
+  - [x] Phase 10d — Voice: OpenAI TTS read-aloud on chat replies (generated on demand, not cached — real per-play cost, see `backend/README.md`)
+  - [ ] Phase 10e — VR (WebXR)
 
 ## Safety
 

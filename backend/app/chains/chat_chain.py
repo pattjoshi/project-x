@@ -42,18 +42,24 @@ What you remember about this person:
 {memory_context}"""
 
 
+class ChatReplyWithUsage(BaseModel):
+    reply: ChatReply
+    prompt_tokens: int | None
+    completion_tokens: int | None
+
+
 def generate_reply(
     character: Character,
     relationship: Relationship,
     message: str,
     memory_context: str = "(nothing yet)",
-) -> ChatReply:
+) -> ChatReplyWithUsage:
     prompt = ChatPromptTemplate.from_messages(
         [("system", SYSTEM_TEMPLATE), ("human", "{message}")]
     )
-    chain = prompt | get_chat_model().with_structured_output(ChatReply)
+    chain = prompt | get_chat_model().with_structured_output(ChatReply, include_raw=True)
 
-    result = chain.invoke(
+    outcome = chain.invoke(
         {
             "personality_prompt": character.personality_prompt,
             "lore": character.lore,
@@ -63,5 +69,12 @@ def generate_reply(
             "message": message,
         }
     )
-    assert isinstance(result, ChatReply)
-    return result
+    parsed = outcome["parsed"]
+    assert isinstance(parsed, ChatReply)
+
+    usage = getattr(outcome["raw"], "usage_metadata", None)
+    return ChatReplyWithUsage(
+        reply=parsed,
+        prompt_tokens=usage["input_tokens"] if usage else None,
+        completion_tokens=usage["output_tokens"] if usage else None,
+    )

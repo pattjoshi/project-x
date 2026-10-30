@@ -54,6 +54,15 @@ Phase 10a (gifts):
 Phase 10d (voice, require `Authorization: Bearer <access_token>`):
 - `GET /api/chat/{character_id}/messages/{message_id}/speech` → `audio/mpeg`; synthesizes the given assistant message via OpenAI TTS (`app/core/tts.py`, model/voice set by `OPENAI_TTS_MODEL`/`OPENAI_TTS_VOICE`, default `tts-1`/`nova`). 404s unless the message belongs to the current user, the given character, and has `role == "assistant"`. Generated on demand, not cached or stored — each play is a fresh OpenAI call, so this adds real per-play cost/latency on top of the chat completion; worth revisiting (e.g. caching by message id) before this goes to real users at scale.
 
+Phase 10b (admin analytics, require `Authorization: Bearer <access_token>` from a user with `is_admin = true` — 403 otherwise):
+- `GET /api/admin/analytics/overview` — total users/messages/gifts sent, relationship counts by stage
+- `GET /api/admin/analytics/chapter-dropoff` — per-chapter started vs. completed counts (`app/models/chapter_progress.py`)
+- `GET /api/admin/analytics/node-dropoff` — top nodes where incomplete chapter runs are currently stuck
+- `GET /api/admin/analytics/choices` — most-picked chapter choices, grouped by chapter/node/choice
+- `GET /api/admin/analytics/cost` — estimated AI spend per user, from chat-completion token usage captured on each `Message` (`prompt_tokens`/`completion_tokens`, added in migration `0008`) at fixed gpt-4o-mini pricing (`app/game/analytics.py`). This is an *estimate* from the tracked chat-completion calls only — moderation and TTS calls aren't metered here, so treat it as directional, not a bill.
+
+There's no self-serve way to become an admin (by design — this is a first-pass internal dashboard, not a role a user can grant themselves): promote an account with `python -m scripts.make_admin someone@example.com` (`--revoke` to undo).
+
 ## Chat pipeline (`app/graphs/chat_graph.py`)
 
 A LangGraph `StateGraph` (invoked fresh per request — no checkpointer; the
