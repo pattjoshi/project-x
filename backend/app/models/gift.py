@@ -1,0 +1,12 @@
+import uuid
+
+from sqlmodel import Field, SQLModel
+
+
+class Gift(SQLModel, table=True):
+    __tablename__ = "gifts"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    name: str
+    emoji: str
+    description: str = Field(default="")

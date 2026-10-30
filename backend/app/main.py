@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import auth, chapters, characters, chat, daily, health, relationships, reports
+from app.api.routes import auth, chapters, characters, chat, daily, gifts, health, relationships, reports
 from app.core.config import get_settings
 
 
@@ -26,6 +26,7 @@ def create_app() -> FastAPI:
     app.include_router(chapters.router)
     app.include_router(daily.router)
     app.include_router(reports.router)
+    app.include_router(gifts.router)
 
     return app
 

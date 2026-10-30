@@ -19,6 +19,7 @@ docker compose exec backend alembic upgrade head
 docker compose exec backend python -m scripts.seed_characters
 docker compose exec backend python -m scripts.seed_chapters
 docker compose exec backend python -m scripts.seed_quests
+docker compose exec backend python -m scripts.seed_gifts
 ```
 
 Then open http://localhost:3000, sign up (18+ age-gate checkbox required),
@@ -52,6 +53,11 @@ project-x/
 - [x] Phase 8 — CrewAI worker container, first crews
 - [ ] Phase 9 — Deploy: VPS or Vercel + Render/Railway, HTTPS
 - [ ] Phase 10 — V2: voice, gifts, dates, VR, analytics
+  - [x] Phase 10a — Gifts: catalog + send-gift flow, affinity-based relationship deltas
+  - [ ] Phase 10b — Analytics (admin dashboard)
+  - [ ] Phase 10c — Date locations (new 3D scenes)
+  - [ ] Phase 10d — Voice (TTS)
+  - [ ] Phase 10e — VR (WebXR)
 
 ## Safety
 
