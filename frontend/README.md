@@ -38,6 +38,22 @@ stand-in (color-tinted capsule + sphere) plus an emoji badge overlaid outside
 the Canvas. No VRM assets are seeded yet; see
 `public/models/README.md` for how to add one.
 
+### VR (`@react-three/xr`, Phase 10e)
+
+The scene is wrapped in `<XR store={...}>` (`createXRStore()`, one per
+`DateScene` instance) so it can run as a WebXR immersive session. A
+`VrEntryButton` overlay checks `useXRSessionModeSupported("immersive-vr")`
+and only renders an "Enter VR" button when the browser/device actually
+reports support (`store.enterVR()` on click) - on everything else (no
+headset, no WebXR, desktop browsers) it renders nothing, so the regular 3D
+view is unaffected. That hook reads `navigator.xr` via
+`useSyncExternalStore` with no server snapshot, which breaks SSR - it's
+gated behind a mount check (see the comment in `vr-entry-button.tsx`) so it
+only ever runs client-side. No real headset was available to test this
+against in development; verified by code review plus patching the browser's
+own `navigator.xr.isSessionSupported` to force each path (supported /
+unsupported) in a real headless-Chromium run.
+
 Note: the emotion badge is a plain DOM overlay, not drei's `<Html>` -
 `<Html>` renders through its own internal `ReactDOM.createRoot()`, which is
 unreliable under React 19's concurrent rendering (content silently failed to

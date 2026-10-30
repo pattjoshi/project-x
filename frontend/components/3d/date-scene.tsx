@@ -1,13 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import { XR, createXRStore } from "@react-three/xr";
 
 import { CharacterAvatar } from "./character-avatar";
 import { emojiForEmotion } from "./emotion";
 import { CafeEnvironment } from "./environments/cafe-environment";
 import { ParkEnvironment } from "./environments/park-environment";
 import { RooftopEnvironment } from "./environments/rooftop-environment";
+import { VrEntryButton } from "./vr-entry-button";
 import type { DateLocation } from "@/types/location";
 
 const LOCATION_CONFIG: Record<
@@ -52,6 +55,7 @@ export function DateScene({
   location?: DateLocation;
 }) {
   const { Environment, background, cameraPosition, fov } = LOCATION_CONFIG[location];
+  const [store] = useState(() => createXRStore());
 
   return (
     <div className="relative h-80 w-full overflow-hidden rounded-xl border shadow-sm">
@@ -61,22 +65,25 @@ export function DateScene({
         aria-hidden
       />
       <Canvas key={location} shadows camera={{ position: cameraPosition, fov }}>
-        <Environment />
-        <CharacterAvatar vrmUrl={vrmUrl} emotion={emotion} />
-        <OrbitControls
-          target={[0, 0.95, -0.8]}
-          minDistance={1.2}
-          maxDistance={3.5}
-          maxPolarAngle={Math.PI / 2}
-          enablePan={false}
-        />
+        <XR store={store}>
+          <Environment />
+          <CharacterAvatar vrmUrl={vrmUrl} emotion={emotion} />
+          <OrbitControls
+            target={[0, 0.95, -0.8]}
+            minDistance={1.2}
+            maxDistance={3.5}
+            maxPolarAngle={Math.PI / 2}
+            enablePan={false}
+          />
+        </XR>
       </Canvas>
 
-      {/* Plain DOM overlay, not a 3D-anchored drei <Html> - see
+      {/* Plain DOM overlays, not 3D-anchored drei <Html> - see
           placeholder-avatar.tsx for why. */}
       <div className="glass-panel pointer-events-none absolute top-3 right-3 rounded-full px-2.5 py-1 text-xl shadow-sm">
         {emojiForEmotion(emotion)}
       </div>
+      <VrEntryButton store={store} />
     </div>
   );
 }

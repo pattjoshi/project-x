@@ -57,7 +57,13 @@ project-x/
   - [ ] Phase 10b — Analytics (admin dashboard)
   - [x] Phase 10c — Date locations: cafe/park/rooftop 3D scenes, client-side switcher
   - [ ] Phase 10d — Voice (TTS)
-  - [ ] Phase 10e — VR (WebXR)
+  - [x] Phase 10e — VR: WebXR entry button (`@react-three/xr`) with fallback detection; not tested on real hardware, see `frontend/README.md`
+
+All five Phase 10 sub-features are now built — the remaining Phase 10
+checkbox above stays unchecked pending a real-device VR smoke test and an
+`OPENAI_API_KEY`-backed check of voice/cost tracking (see the `frontend` and
+`backend` READMEs for what each feature's test coverage does and doesn't
+include).
 
 ## Safety
 
