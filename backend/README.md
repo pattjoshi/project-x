@@ -24,6 +24,7 @@ Populate placeholder characters and their chapters for local UI testing:
 python -m scripts.seed_characters
 python -m scripts.seed_chapters
 python -m scripts.seed_quests
+python -m scripts.seed_gifts
 ```
 
 ## Endpoints
@@ -45,6 +46,10 @@ Phase 3/4/5/6 (require `Authorization: Bearer <access_token>`):
 Phase 8 (require `Authorization: Bearer <access_token>`):
 - `POST /api/reports/{character_id}` → `202` + `{ id, status: "pending" }`, enqueues a background job on the worker (see `../worker/README.md`)
 - `GET /api/reports/jobs/{job_id}` — poll for the result (`{ status, output }`); 404 if the job doesn't belong to the current user
+
+Phase 10a (gifts):
+- `GET /api/gifts` — list the gift catalog (public, no auth required)
+- `POST /api/gifts/{character_id}/{gift_id}` — requires `Authorization: Bearer <access_token>`; looks up each character's `likes`/`dislikes` to classify the gift as `loved`/`liked`/`disliked` (`app/game/gifts.py`), applies the matching affection/trust/chemistry deltas, logs the send to `gift_log`, and returns `{ affinity, relationship }`
 
 ## Chat pipeline (`app/graphs/chat_graph.py`)
 
