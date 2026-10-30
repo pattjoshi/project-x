@@ -26,6 +26,14 @@ export async function AppHeader() {
           >
             Daily Quests
           </Link>
+          {session?.user?.isAdmin && (
+            <Link
+              href="/admin"
+              className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            >
+              Admin
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-3">

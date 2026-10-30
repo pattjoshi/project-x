@@ -28,6 +28,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             email: user.email,
             name: user.display_name,
             ageVerified: user.age_verified,
+            isAdmin: user.is_admin,
             backendAccessToken: access_token,
           };
         } catch (error) {
@@ -40,14 +41,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
-        const u = user as { ageVerified?: boolean; backendAccessToken?: string };
+        const u = user as { ageVerified?: boolean; isAdmin?: boolean; backendAccessToken?: string };
         token.ageVerified = u.ageVerified;
+        token.isAdmin = u.isAdmin;
         token.backendAccessToken = u.backendAccessToken;
       }
       return token;
     },
     session: ({ session, token }) => {
       session.user.ageVerified = token.ageVerified as boolean | undefined;
+      session.user.isAdmin = token.isAdmin as boolean | undefined;
       session.backendAccessToken = token.backendAccessToken as string | undefined;
       return session;
     },

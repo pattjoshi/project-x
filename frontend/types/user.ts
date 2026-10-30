@@ -3,6 +3,7 @@ export interface UserPublic {
   email: string;
   display_name: string;
   age_verified: boolean;
+  is_admin: boolean;
 }
 
 export interface AuthResponse {
