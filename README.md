@@ -56,7 +56,7 @@ project-x/
   - [x] Phase 10a — Gifts: catalog + send-gift flow, affinity-based relationship deltas
   - [ ] Phase 10b — Analytics (admin dashboard)
   - [x] Phase 10c — Date locations: cafe/park/rooftop 3D scenes, client-side switcher
-  - [x] Phase 10d — Voice: OpenAI TTS read-aloud on chat replies (generated on demand, not cached — real per-play cost, see `backend/README.md`)
+  - [ ] Phase 10d — Voice (TTS)
   - [ ] Phase 10e — VR (WebXR)
 
 ## Safety
