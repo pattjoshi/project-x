@@ -51,6 +51,9 @@ Phase 10a (gifts):
 - `GET /api/gifts` — list the gift catalog (public, no auth required)
 - `POST /api/gifts/{character_id}/{gift_id}` — requires `Authorization: Bearer <access_token>`; looks up each character's `likes`/`dislikes` to classify the gift as `loved`/`liked`/`disliked` (`app/game/gifts.py`), applies the matching affection/trust/chemistry deltas, logs the send to `gift_log`, and returns `{ affinity, relationship }`
 
+Phase 10d (voice, require `Authorization: Bearer <access_token>`):
+- `GET /api/chat/{character_id}/messages/{message_id}/speech` → `audio/mpeg`; synthesizes the given assistant message via OpenAI TTS (`app/core/tts.py`, model/voice set by `OPENAI_TTS_MODEL`/`OPENAI_TTS_VOICE`, default `tts-1`/`nova`). 404s unless the message belongs to the current user, the given character, and has `role == "assistant"`. Generated on demand, not cached or stored — each play is a fresh OpenAI call, so this adds real per-play cost/latency on top of the chat completion; worth revisiting (e.g. caching by message id) before this goes to real users at scale.
+
 ## Chat pipeline (`app/graphs/chat_graph.py`)
 
 A LangGraph `StateGraph` (invoked fresh per request — no checkpointer; the

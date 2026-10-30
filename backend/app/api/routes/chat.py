@@ -1,8 +1,9 @@
 import uuid
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Response, status
 
 from app.api.deps import CurrentUser, SessionDep
+from app.core.tts import synthesize_speech
 from app.game.daily import record_progress
 from app.game.relationships import get_or_create_relationship
 from app.graphs.chat_graph import get_chat_graph
@@ -73,3 +74,20 @@ def chat(
         relationship=RelationshipPublic.model_validate(relationship),
         stage_changed=stage_changed,
     )
+
+
+@router.get("/{character_id}/messages/{message_id}/speech")
+def message_speech(
+    character_id: uuid.UUID, message_id: uuid.UUID, current_user: CurrentUser, session: SessionDep
+) -> Response:
+    message = session.get(Message, message_id)
+    if (
+        message is None
+        or message.character_id != character_id
+        or message.user_id != current_user.id
+        or message.role != "assistant"
+    ):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Message not found.")
+
+    audio = synthesize_speech(message.content)
+    return Response(content=audio, media_type="audio/mpeg")

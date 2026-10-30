@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RelationshipMeters } from "@/components/chat/relationship-meters";
+import { SpeakButton } from "@/components/chat/speak-button";
 import type { ChatMessage, ChatResponse, RelationshipPublic } from "@/types/chat";
 
 export function ChatPanel({
@@ -103,6 +104,9 @@ export function ChatPanel({
             >
               {message.content}
             </p>
+            {message.role === "assistant" && (
+              <SpeakButton characterId={characterId} messageId={message.id} />
+            )}
           </div>
         ))}
         {isSending && (
