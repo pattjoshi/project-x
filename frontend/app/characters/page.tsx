@@ -1,5 +1,6 @@
 import { AppHeader } from "@/components/layout/app-header";
 import { CharacterCard } from "@/components/characters/character-card";
+import { Reveal } from "@/components/cinematic/reveal";
 import { api } from "@/lib/api-client";
 import type { Character } from "@/types/character";
 
@@ -11,14 +12,16 @@ export default async function CharactersPage() {
   return (
     <>
       <AppHeader />
-      <main className="mx-auto max-w-4xl p-6">
-        <h1 className="mb-1 text-2xl font-semibold">Characters</h1>
-        <p className="mb-6 text-sm text-muted-foreground">
-          Pick someone to get to know.
-        </p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {characters.map((character) => (
-            <CharacterCard key={character.id} character={character} />
+      <main className="mx-auto max-w-4xl p-6 pt-12">
+        <Reveal>
+          <p className="text-eyebrow text-muted-foreground">Who&apos;s free tonight</p>
+          <h1 className="text-display-2 mt-2 mb-8">Characters</h1>
+        </Reveal>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+          {characters.map((character, i) => (
+            <Reveal key={character.id} delay={i * 0.08}>
+              <CharacterCard character={character} />
+            </Reveal>
           ))}
         </div>
       </main>

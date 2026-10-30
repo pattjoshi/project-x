@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { AppHeader } from "@/components/layout/app-header";
+import { PageHeading } from "@/components/layout/page-heading";
+import { Reveal } from "@/components/cinematic/reveal";
 import { ChapterDropoffTable } from "@/components/admin/chapter-dropoff-table";
 import { ChoiceStatsTable } from "@/components/admin/choice-stats-table";
 import { CostSummaryTable } from "@/components/admin/cost-summary-table";
@@ -35,29 +37,37 @@ export default async function AdminPage() {
   return (
     <>
       <AppHeader />
-      <main className="mx-auto flex max-w-4xl flex-col gap-8 p-6">
-        <h1 className="text-2xl font-semibold">Analytics</h1>
+      <main className="mx-auto flex max-w-4xl flex-col gap-8 p-6 pt-12">
+        <PageHeading eyebrow="For your eyes only" title="Analytics" />
 
-        <StatCards overview={overview} totalCostUsd={cost.total_estimated_cost_usd} />
+        <Reveal>
+          <StatCards overview={overview} totalCostUsd={cost.total_estimated_cost_usd} />
+        </Reveal>
 
-        <section className="flex flex-col gap-3">
-          <h2 className="text-lg font-semibold">Chapter drop-off</h2>
-          <ChapterDropoffTable chapters={chapterDropoff} nodes={nodeDropoff} />
-        </section>
+        <Reveal>
+          <section className="flex flex-col gap-3">
+            <h2 className="text-display-3">Chapter drop-off</h2>
+            <ChapterDropoffTable chapters={chapterDropoff} nodes={nodeDropoff} />
+          </section>
+        </Reveal>
 
-        <section className="flex flex-col gap-3">
-          <h2 className="text-lg font-semibold">Most common choices</h2>
-          <ChoiceStatsTable choices={choices} />
-        </section>
+        <Reveal>
+          <section className="flex flex-col gap-3">
+            <h2 className="text-display-3">Most common choices</h2>
+            <ChoiceStatsTable choices={choices} />
+          </section>
+        </Reveal>
 
-        <section className="flex flex-col gap-3">
-          <h2 className="text-lg font-semibold">Estimated AI cost per user</h2>
-          <p className="text-xs text-muted-foreground">
-            Estimated from chat-completion token usage at gpt-4o-mini pricing. Not a metered
-            bill - moderation and TTS calls aren&apos;t included.
-          </p>
-          <CostSummaryTable users={cost.top_users} />
-        </section>
+        <Reveal>
+          <section className="flex flex-col gap-3">
+            <h2 className="text-display-3">Estimated AI cost per user</h2>
+            <p className="text-xs text-muted-foreground">
+              Estimated from chat-completion token usage at gpt-4o-mini pricing. Not a metered
+              bill - moderation and TTS calls aren&apos;t included.
+            </p>
+            <CostSummaryTable users={cost.top_users} />
+          </section>
+        </Reveal>
       </main>
     </>
   );

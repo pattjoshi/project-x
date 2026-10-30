@@ -2,8 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { AppHeader } from "@/components/layout/app-header";
+import { Magnetic } from "@/components/cinematic/magnetic";
+import { Reveal } from "@/components/cinematic/reveal";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ApiError, api } from "@/lib/api-client";
 import type { Character } from "@/types/character";
 
@@ -27,43 +29,45 @@ export default async function CharacterProfilePage({
   return (
     <>
       <AppHeader />
-      <main className="mx-auto max-w-2xl p-6">
-        <Card className="overflow-hidden py-0">
-          <div className="gradient-romantic h-20" aria-hidden />
-          <CardHeader className="-mt-8">
-            <div
-              className="mb-2 flex size-16 items-center justify-center rounded-full border-4 border-card bg-secondary text-2xl font-semibold text-secondary-foreground"
-              aria-hidden
-            >
-              {character.name.charAt(0)}
+      <main className="mx-auto max-w-2xl p-6 pt-12">
+        <Reveal>
+          <Card className="overflow-hidden py-0">
+            <div className="gradient-romantic relative flex h-40 items-end p-6" aria-hidden>
+              <div className="flex size-20 items-center justify-center rounded-full border-4 border-card bg-white/20 text-3xl font-semibold text-white backdrop-blur-sm">
+                {character.name.charAt(0)}
+              </div>
             </div>
-            <CardTitle className="text-2xl">{character.name}</CardTitle>
-            <p className="text-muted-foreground">Age {character.age}</p>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-3 pb-6">
-            <p>{character.bio}</p>
-            <p>
-              <span className="font-medium">Likes:</span> {character.likes}
-            </p>
-            <p>
-              <span className="font-medium">Dislikes:</span> {character.dislikes}
-            </p>
-            <div className="flex flex-wrap gap-2 pt-2">
-              <Button asChild>
-                <Link href={`/characters/${character.id}/chat`}>Start chatting</Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link href={`/characters/${character.id}/chapters`}>Chapters</Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link href={`/characters/${character.id}/gifts`}>Gifts</Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link href={`/characters/${character.id}/report`}>Compatibility Report</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+            <CardHeader className="pt-4">
+              <h1 className="text-display-2">{character.name}</h1>
+              <p className="text-muted-foreground">Age {character.age}</p>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3 pb-8">
+              <p>{character.bio}</p>
+              <p>
+                <span className="font-medium">Likes:</span> {character.likes}
+              </p>
+              <p>
+                <span className="font-medium">Dislikes:</span> {character.dislikes}
+              </p>
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <Magnetic>
+                  <Button asChild data-cursor-hover>
+                    <Link href={`/characters/${character.id}/chat`}>Start chatting</Link>
+                  </Button>
+                </Magnetic>
+                <Button asChild variant="outline">
+                  <Link href={`/characters/${character.id}/chapters`}>Chapters</Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href={`/characters/${character.id}/gifts`}>Gifts</Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href={`/characters/${character.id}/report`}>Compatibility Report</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </Reveal>
       </main>
     </>
   );

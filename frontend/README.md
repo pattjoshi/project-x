@@ -39,6 +39,41 @@ stand-in (color-tinted capsule + sphere) plus an emoji badge overlaid outside
 the Canvas. No VRM assets are seeded yet; see
 `public/models/README.md` for how to add one.
 
+## Cinematic design system (`components/cinematic/`)
+
+A site-wide visual language inspired by WebGL/scrollytelling portfolio sites
+(full-bleed 3D hero, oversized display type, grain, smooth scroll, a custom
+cursor) applied across every page - landing included, plus the functional
+app shell (auth, characters, chat, chapters, gifts, daily quests, admin).
+The functional screens keep native forms/tables/chat underneath the new look
+rather than wrapping them in anything WebGL - usability came first on those.
+
+- `SmoothScroll` (`lenis/react`, mounted once in `app/layout.tsx`) - inertial
+  scrolling site-wide.
+- `GrainOverlay` - a fixed, low-opacity SVG noise texture over everything.
+- `CustomCursor` (`motion/react`) - a spring-follows-pointer dot that grows
+  over `a`, `button`, or `[data-cursor-hover]` elements; only mounts on
+  `(pointer: fine)` devices (never on touch), and hides the native cursor via
+  the `html.has-custom-cursor` rule in `globals.css`.
+- `Reveal` - a `motion.div` fade/slide-up on scroll-into-view (`whileInView`,
+  `once: true`), used for nearly every section/card entrance.
+- `Magnetic` - wraps a button/link and nudges it toward the cursor on hover;
+  reserved for primary CTAs, not nav links (would feel gimmicky there).
+- `PageHeading` (`components/layout/`) - the shared eyebrow + `text-display-2`
+  pattern used at the top of every inner page.
+- The `Fraunces` display serif (`next/font/google`, `--font-display`) pairs
+  with the existing Geist sans; `.text-display-1/2/3` and `.text-eyebrow` in
+  `globals.css` are the fluid (`clamp()`) type scale built on it.
+- `components/home/hero-scene.tsx` is the landing page's WebGL hero: a
+  `MeshDistortMaterial` blob (`@react-three/drei`) that reacts to the pointer,
+  against a fixed dark hero section (not the light page background) so white
+  headline text stays legible regardless of what the blob is doing.
+
+Note: `useXRSessionModeSupported` (used by the VR entry button, Phase 10e)
+isn't the only hook in this app that can't run during SSR - keep that in mind
+before reaching for other browser-only hooks (`motion`'s `useScroll` against
+`window`, etc.) without a mount guard like the one in `vr-entry-button.tsx`.
+
 ### VR (`@react-three/xr`, Phase 10e)
 
 The scene is wrapped in `<XR store={...}>` (`createXRStore()`, one per

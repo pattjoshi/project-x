@@ -24,7 +24,7 @@ export default async function ChapterReaderPage({
   return (
     <>
       <AppHeader />
-      <main className="mx-auto max-w-2xl p-6">
+      <main className="mx-auto max-w-2xl p-6 pt-12">
         <ChapterReader characterId={id} chapterId={chapterId} initialNode={node} />
       </main>
     </>

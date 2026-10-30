@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { AppHeader } from "@/components/layout/app-header";
+import { PageHeading } from "@/components/layout/page-heading";
 import { CharacterChatExperience } from "@/components/chat/character-chat-experience";
 import { ApiError, api } from "@/lib/api-client";
 import { auth } from "@/lib/auth";
@@ -35,8 +36,8 @@ export default async function CharacterChatPage({
   return (
     <>
       <AppHeader />
-      <main className="mx-auto max-w-2xl p-6">
-        <h1 className="mb-4 text-2xl font-semibold">Chat with {character.name}</h1>
+      <main className="mx-auto max-w-2xl p-6 pt-12">
+        <PageHeading eyebrow="Your date" title={`Chat with ${character.name}`} />
         <CharacterChatExperience
           characterId={id}
           characterName={character.name}
