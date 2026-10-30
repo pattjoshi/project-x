@@ -18,7 +18,7 @@ with `AUTH_SECRET` and `NEXT_PUBLIC_API_URL` (see root `.env.example`).
 - `/signup`, `/login` — auth forms (signup includes the 18+ age-gate checkbox)
 - `/characters` — character list (protected by `middleware.ts`)
 - `/characters/[id]` — character profile
-- `/characters/[id]/chat` — 3D café scene + free-form AI chat (Phase 3/4/7)
+- `/characters/[id]/chat` — 3D café scene + free-form AI chat, with a "Play" button on each reply to hear it read aloud via OpenAI TTS (Phase 3/4/7/10d)
 - `/characters/[id]/chapters`, `/characters/[id]/chapters/[chapterId]` — branching story chapters (Phase 5)
 - `/daily` — login streak + daily quests (Phase 6)
 

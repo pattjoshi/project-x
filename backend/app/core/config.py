@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     openai_max_tokens: int = 300
     openai_embedding_model: str = "text-embedding-3-small"
     openai_embedding_dimensions: int = 1536
+    openai_tts_model: str = "tts-1"
+    openai_tts_voice: str = "nova"
 
     auth_secret: str = ""
     access_token_expire_minutes: int = 60 * 24 * 7
