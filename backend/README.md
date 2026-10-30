@@ -27,6 +27,14 @@ python -m scripts.seed_quests
 python -m scripts.seed_gifts
 ```
 
+To swap a character's procedural placeholder for a real VRM model once you
+have one (see `frontend/public/models/README.md`):
+
+```bash
+python -m scripts.set_character_vrm "Ananya Sharma" /models/ananya.vrm
+python -m scripts.set_character_vrm "Ananya Sharma" --clear   # back to the placeholder
+```
+
 ## Endpoints
 
 Phase 2:
