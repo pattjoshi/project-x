@@ -10,7 +10,7 @@ const BASE_POSITION: [number, number, number] = [0, 0.95, -0.8];
 
 /** A simple procedural stand-in used until a character has a real VRM
  * model (`character.vrm_model_url`). Emotion is shown via a color tint here;
- * the emoji badge lives outside the Canvas (see CafeScene) since drei's
+ * the emoji badge lives outside the Canvas (see DateScene) since drei's
  * <Html> uses its own nested React root internally, which is unreliable
  * under React 19's concurrent rendering. */
 export function PlaceholderAvatar({ emotion }: { emotion: string }) {

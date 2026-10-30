@@ -55,7 +55,7 @@ project-x/
 - [ ] Phase 10 — V2: voice, gifts, dates, VR, analytics
   - [x] Phase 10a — Gifts: catalog + send-gift flow, affinity-based relationship deltas
   - [ ] Phase 10b — Analytics (admin dashboard)
-  - [ ] Phase 10c — Date locations (new 3D scenes)
+  - [x] Phase 10c — Date locations: cafe/park/rooftop 3D scenes, client-side switcher
   - [ ] Phase 10d — Voice (TTS)
   - [ ] Phase 10e — VR (WebXR)
 

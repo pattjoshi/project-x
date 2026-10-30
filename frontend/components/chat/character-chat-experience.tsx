@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 
-import { CafeScene } from "@/components/3d/cafe-scene";
+import { DateScene } from "@/components/3d/date-scene";
 import { ChatPanel } from "@/components/chat/chat-panel";
+import { LocationSwitcher } from "@/components/chat/location-switcher";
 import type { RelationshipPublic } from "@/types/chat";
+import type { DateLocation } from "@/types/location";
 
 export function CharacterChatExperience({
   characterId,
@@ -18,10 +20,12 @@ export function CharacterChatExperience({
   initialRelationship: RelationshipPublic;
 }) {
   const [emotion, setEmotion] = useState("neutral");
+  const [location, setLocation] = useState<DateLocation>("cafe");
 
   return (
     <div className="flex flex-col gap-4">
-      <CafeScene vrmUrl={vrmUrl} emotion={emotion} />
+      <LocationSwitcher location={location} onLocationChange={setLocation} />
+      <DateScene vrmUrl={vrmUrl} emotion={emotion} location={location} />
       <ChatPanel
         characterId={characterId}
         characterName={characterName}
