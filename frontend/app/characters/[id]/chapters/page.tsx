@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { AppHeader } from "@/components/layout/app-header";
-import { PageHeading } from "@/components/layout/page-heading";
+import { CharacterBust } from "@/components/3d/character-bust";
 import { Reveal } from "@/components/cinematic/reveal";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { ApiError, api } from "@/lib/api-client";
@@ -39,7 +39,16 @@ export default async function ChaptersPage({
     <>
       <AppHeader />
       <main className="mx-auto max-w-2xl p-6 pt-12">
-        <PageHeading eyebrow="Story mode" title={`${character.name}'s Chapters`} />
+        <div className="mb-8 flex items-center gap-4">
+          <CharacterBust
+            vrmUrl={character.vrm_model_url}
+            className="size-16 shrink-0 overflow-hidden rounded-full"
+          />
+          <div className="mb-0">
+            <p className="text-eyebrow text-muted-foreground">Story mode</p>
+            <h1 className="text-display-2 mt-1">{character.name}&apos;s Chapters</h1>
+          </div>
+        </div>
 
         {chapters.length === 0 && (
           <p className="text-sm text-muted-foreground">

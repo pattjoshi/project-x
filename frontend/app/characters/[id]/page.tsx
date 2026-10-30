@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { AppHeader } from "@/components/layout/app-header";
+import { CharacterBust } from "@/components/3d/character-bust";
 import { Magnetic } from "@/components/cinematic/magnetic";
 import { Reveal } from "@/components/cinematic/reveal";
 import { Button } from "@/components/ui/button";
@@ -32,10 +33,8 @@ export default async function CharacterProfilePage({
       <main className="mx-auto max-w-2xl p-6 pt-12">
         <Reveal>
           <Card className="overflow-hidden py-0">
-            <div className="gradient-romantic relative flex h-40 items-end p-6" aria-hidden>
-              <div className="flex size-20 items-center justify-center rounded-full border-4 border-card bg-white/20 text-3xl font-semibold text-white backdrop-blur-sm">
-                {character.name.charAt(0)}
-              </div>
+            <div className="gradient-romantic h-56 overflow-hidden" aria-hidden>
+              <CharacterBust vrmUrl={character.vrm_model_url} className="h-full w-full" />
             </div>
             <CardHeader className="pt-4">
               <h1 className="text-display-2">{character.name}</h1>

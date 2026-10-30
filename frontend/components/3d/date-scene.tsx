@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { ContactShadows, OrbitControls } from "@react-three/drei";
 import { XR, createXRStore } from "@react-three/xr";
+import { ACESFilmicToneMapping } from "three";
 
 import { CharacterAvatar } from "./character-avatar";
 import { emojiForEmotion } from "./emotion";
@@ -64,10 +65,17 @@ export function DateScene({
         style={{ background }}
         aria-hidden
       />
-      <Canvas key={location} shadows camera={{ position: cameraPosition, fov }}>
+      <Canvas
+        key={location}
+        shadows
+        camera={{ position: cameraPosition, fov }}
+        gl={{ toneMapping: ACESFilmicToneMapping, toneMappingExposure: 1.05 }}
+      >
         <XR store={store}>
           <Environment />
+          <pointLight position={[-0.6, 1.8, -1.6]} intensity={0.5} color="#ff9fae" />
           <CharacterAvatar vrmUrl={vrmUrl} emotion={emotion} />
+          <ContactShadows position={[0, 0, -0.8]} opacity={0.3} scale={3} blur={2.2} far={1.2} />
           <OrbitControls
             target={[0, 0.95, -0.8]}
             minDistance={1.2}

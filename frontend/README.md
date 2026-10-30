@@ -34,10 +34,30 @@ client-side only (no backend state) and the character avatar always anchors
 to the same world position so it composes into any of them unmodified.
 `CharacterAvatar` loads a real VRM model when `character.vrm_model_url` is
 set (via `@pixiv/three-vrm`, mapping our emotion strings to VRM expression
-presets), otherwise falls back to `PlaceholderAvatar` - a simple procedural
-stand-in (color-tinted capsule + sphere) plus an emoji badge overlaid outside
-the Canvas. No VRM assets are seeded yet; see
+presets), otherwise falls back to `PlaceholderAvatar` - a stylized procedural
+bust (head/hair/torso built from primitives, no textures or skinning) with
+idle breathing, periodic blinking, and the head turning gently toward the
+cursor each frame. No VRM assets are seeded yet; see
 `public/models/README.md` for how to add one.
+
+`AvatarLighting` (`components/3d/avatar-lighting.tsx`) is a shared
+three-point studio lighting rig - key/fill/rim lights plus a procedural
+`<Environment>` built from drei `Lightformer`s (no HDRI fetch, so it renders
+fully offline) and a soft `ContactShadows` under the character. `DateScene`
+(the chat page) uses it alongside each location's own environment lighting;
+`CharacterBust` (`components/3d/character-bust.tsx`) uses it alone for a
+plain bust-framed render with ACES tone mapping. `CharacterBust` is what
+gives characters a living presence outside the chat page too - character
+cards, the profile hero, and the chapters header all render a small live
+instance of it instead of a flat initial-letter badge.
+
+Note: `@react-three/postprocessing` (for real bloom) is **not** installed -
+every published version pins `postprocessing@^6.36.0`, which requires
+`three < 0.168`, and this project is on `three@0.186`. Forcing it past that
+with `--legacy-peer-deps` would silently risk a broken runtime, so the
+"soft glow" look here comes from tone mapping + emissive materials + the
+lighting rig instead. Revisit if a `postprocessing` release adds support for
+current `three`.
 
 ## Cinematic design system (`components/cinematic/`)
 
