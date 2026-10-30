@@ -28,6 +28,8 @@ class ChatState(TypedDict):
     reply: str
     emotion: str
     intent: str
+    prompt_tokens: int | None
+    completion_tokens: int | None
     stage_before: str
 
 
@@ -57,10 +59,16 @@ def _load_memory(state: ChatState) -> dict:
 
 
 def _generate(state: ChatState) -> dict:
-    result = generate_reply(
+    outcome = generate_reply(
         state["character"], state["relationship"], state["user_message"], state["memory_context"]
     )
-    return {"reply": result.reply, "emotion": result.emotion, "intent": result.intent}
+    return {
+        "reply": outcome.reply.reply,
+        "emotion": outcome.reply.emotion,
+        "intent": outcome.reply.intent,
+        "prompt_tokens": outcome.prompt_tokens,
+        "completion_tokens": outcome.completion_tokens,
+    }
 
 
 def _moderate_output(state: ChatState) -> dict:
