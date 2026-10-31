@@ -1,9 +1,6 @@
-# AI Dating Simulator
+# AI
 
-A web-based dating simulator: users (18+) meet fictional adult characters,
-build relationships, unlock story chapters, and chat with AI-driven
-characters. Content stays romance/flirty — no explicit sexual content is
-generated; see Safety below.
+
 
 ## Tech stack
 
