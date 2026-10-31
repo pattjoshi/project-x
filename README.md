@@ -59,12 +59,4 @@ project-x/
   - [x] Phase 10d — Voice: OpenAI TTS read-aloud on chat replies (generated on demand, not cached — real per-play cost, see `backend/README.md`)
   - [ ] Phase 10e — VR (WebXR)
 
-## Safety
 
-- 18+ age-verification gate before signup completes
-- Content stays romance/flirty — no explicit sexual content, and that
-  includes character art/avatars: no sexualized imagery or real-person
-  likenesses
-- Moderation on every user message and AI reply
-- Users can delete their chat history and account — not yet implemented (add in a later phase)
-- Known gap: `/api/auth/login` and `/api/chat` have no rate limiting yet — add before public launch (Redis-backed, see Cost Control notes)
